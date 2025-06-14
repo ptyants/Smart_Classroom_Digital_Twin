@@ -84,23 +84,7 @@ Lưu ý:
 
 
 
-Kiến trúc hệ thống:
-Smart_Classroom_Digital_Twin/
-│
-├── app/ # Dashboard Flask
-│   ├── app.py # Flask app chính
-│   └── templates/
-│       └── dashboard.html
-│
-├── mqtt_receiver/ # Bộ thu MQTT
-│   └── mqtt_receiver.py
-│
-├── simulator/	# Thiết bị mô phỏng
-│   └── simulated_school_device.py
-│
-├── requirements.txt # Thư viện Python cần thiết
-├── README.md
-└── .config.py # Biến môi trường (MQTT, Flask API, DB credentials)
+<pre> ```text Smart_Classroom_Digital_Twin/ │ ├── app/ # Dashboard Flask │ ├── app.py # Flask app chính │ └── templates/ │ └── dashboard.html # Giao diện web │ ├── mqtt_receiver/ # Bộ thu MQTT │ └── mqtt_receiver.py # Lắng nghe dữ liệu từ thiết bị IoT │ ├── simulator/ # Thiết bị mô phỏng │ └── simulated_school_device.py # Mô phỏng thiết bị lớp học gửi dữ liệu │ ├── requirements.txt # Danh sách thư viện Python cần thiết ├── README.md # Tài liệu mô tả dự án ├── .gitignore # Bỏ qua các file/thư mục không cần thiết └── config.py # Biến môi trường (MQTT, Flask API, DB credentials) ``` </pre>
 
 
 Giải thích sơ lược:
