@@ -83,8 +83,26 @@ Lưu ý:
 + Username và Password thì có thể đọc và tùy chỉnh trong lệnh docker
 
 
+## Kiến trúc hệ thống
 
-```text Smart_Classroom_Digital_Twin/ │ ├── app/ # Dashboard Flask │ ├── app.py # Flask app chính │ └── templates/ │ └── dashboard.html # Giao diện web │ ├── mqtt_receiver/ # Bộ thu MQTT │ └── mqtt_receiver.py # Lắng nghe dữ liệu từ thiết bị IoT │ ├── simulator/ # Thiết bị mô phỏng │ └── simulated_school_device.py # Mô phỏng thiết bị lớp học gửi dữ liệu │ ├── requirements.txt # Danh sách thư viện Python cần thiết ├── README.md # Tài liệu mô tả dự án ├── .gitignore # Bỏ qua các file/thư mục không cần thiết └── config.py # Biến môi trường (MQTT, Flask API, DB credentials) ```
+```text
+Smart_Classroom_Digital_Twin/
+│
+├── app/                        # Dashboard Flask
+│   ├── app.py                  # Flask app chính
+│   └── templates/
+│       └── dashboard.html      # Giao diện web
+│
+├── mqtt_receiver/              # Bộ thu MQTT
+│   └── mqtt_receiver.py        # Lắng nghe dữ liệu từ thiết bị IoT
+│
+├── simulator/                  # Thiết bị mô phỏng
+│   └── simulated_school_device.py  # Mô phỏng thiết bị lớp học gửi dữ liệu
+│
+├── requirements.txt            # Danh sách thư viện Python cần thiết
+├── README.md                   # Tài liệu mô tả dự án
+├── .gitignore                  # Bỏ qua các file/thư mục không cần thiết
+└── config.py                   # Biến môi trường (MQTT, Flask API, DB credentials)
 
 
 Giải thích sơ lược:
