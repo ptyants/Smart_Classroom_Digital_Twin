@@ -1,0 +1,105 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digital Twin AC Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+  <div class="container mx-auto px-4 py-6">
+    <h1 class="text-3xl font-bold text-blue-700 mb-6 text-center">Digital Twin AC Dashboard</h1>
+
+    <div id="rooms" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Phòng được tạo bởi JS, hoặc bạn để tĩnh như dưới -->
+      <div class="room bg-white shadow-md rounded-xl p-4" id="ROOM-1">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Room 1</h2>
+        <div class="status text-sm text-gray-700 space-y-1"></div>
+        <div class="controls mt-4 space-x-2"></div>
+      </div>
+      <div class="room bg-white shadow-md rounded-xl p-4" id="ROOM-2">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Room 2</h2>
+        <div class="status text-sm text-gray-700 space-y-1"></div>
+        <div class="controls mt-4 space-x-2"></div>
+      </div>
+      <div class="room bg-white shadow-md rounded-xl p-4" id="ROOM-3">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Room 3</h2>
+        <div class="status text-sm text-gray-700 space-y-1"></div>
+        <div class="controls mt-4 space-x-2"></div>
+      </div>
+      <div class="room bg-white shadow-md rounded-xl p-4" id="ROOM-4">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Room 4</h2>
+        <div class="status text-sm text-gray-700 space-y-1"></div>
+        <div class="controls mt-4 space-x-2"></div>
+      </div>
+      <div class="room bg-white shadow-md rounded-xl p-4" id="ROOM-5">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Room 5</h2>
+        <div class="status text-sm text-gray-700 space-y-1"></div>
+        <div class="controls mt-4 space-x-2"></div>
+      </div>
+    </div>
+
+    <div class="mt-10">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Control Log:</h3>
+      <div id="log" class="log bg-white border border-gray-300 rounded-md p-4 h-40 overflow-y-auto text-sm text-gray-600"></div>
+    </div>
+  </div>
+
+  <script>
+    function formatNumber(value, digits = 2) {
+      const num = Number(value);
+      return isNaN(num) ? "-" : num.toFixed(digits);
+    }
+
+    const socket = io();
+
+    socket.on('connect', () => {
+      addLog('✅ Connected to server.');
+    });
+
+    socket.on('update_state', data => {
+      const roomId = data.room_id;
+      const roomDiv = document.getElementById(roomId);
+      if (!roomDiv) return;
+
+      const statusEl = roomDiv.querySelector(".status");
+      statusEl.innerHTML = `
+        <p>🌡️ Temp: <strong>${data.temperature.toFixed(2)}</strong> °C</p>
+        <p>💧 Humidity: <strong>${data.humidity.toFixed(2)}</strong>%</p>
+        <p>🧍 People Count: <strong>${formatNumber(data.people_count, 0)}</strong></p>
+        <p>⚡ Energy: <strong>${data.electric_energy.toFixed(2)}</strong> kWh</p>
+        <p>❄️ AC Status: <strong>${data.ac_status}</strong></p>
+      `;
+
+      const controls = roomDiv.querySelector(".controls");
+      controls.innerHTML = `
+        <button onclick="sendCommand('${roomId}', 'TURN_ON')" class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded shadow">Turn ON</button>
+        <button onclick="sendCommand('${roomId}', 'TURN_OFF')" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded shadow">Turn OFF</button>
+      `;
+
+      addLog(`🔄 Room ${roomId} updated: Temp=${data.temperature.toFixed(2)}°C`);
+    });
+
+    socket.on('manual_ack', data => {
+      addLog(`📥 Manual control sent: ${data.command} for ${data.room_id}`);
+    });
+
+    function sendCommand(roomId, cmd) {
+      const duration = 60;
+      socket.emit('manual_control', { room_id: roomId, command: cmd });
+      addLog(`📤 Sent command: ${cmd} to ${roomId}`);
+    }
+
+    function addLog(msg) {
+      const logEl = document.getElementById('log');
+      const p = document.createElement('p');
+      p.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      logEl.appendChild(p);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+  </script>
+</body>
+</html>
