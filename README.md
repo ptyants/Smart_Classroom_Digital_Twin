@@ -1,4 +1,6 @@
 Giao diện:
+
+
 <img alt="Dashboard.png" src="https://github.com/ptyants/Smart_Classroom_Digital_Twin/blob/main/DEMO/Dashboard.png?raw=true" data-hpc="true" class="Box-sc-g0xbh4-0 fzFXnm">
 <img alt="terminal.png" src="https://github.com/ptyants/Smart_Classroom_Digital_Twin/blob/main/DEMO/terminal.png?raw=true" data-hpc="true" class="Box-sc-g0xbh4-0 fzFXnm">
 
