@@ -1,3 +1,8 @@
+Giao diện:
+<img alt="Dashboard.png" src="https://github.com/ptyants/Smart_Classroom_Digital_Twin/blob/main/DEMO/Dashboard.png?raw=true" data-hpc="true" class="Box-sc-g0xbh4-0 fzFXnm">
+<img alt="terminal.png" src="https://github.com/ptyants/Smart_Classroom_Digital_Twin/blob/main/DEMO/terminal.png?raw=true" data-hpc="true" class="Box-sc-g0xbh4-0 fzFXnm">
+
+
 Chuẩn bị các môi trường sau:
 + Python 3  (v3.11)
 + Mosquitto (v2.0)
@@ -7,17 +12,13 @@ Chuẩn bị các môi trường sau:
 
 Cách debug & chạy Mosquitto:
     Mosquitto là một trình môi giới (broker) MQTT – một phần mềm trung gian dùng để giao tiếp giữa các thiết bị trong hệ thống Internet of Things (IoT).
-
     Kiểm tra version:
         mosquitto -v
-
     Chạy mosquitto:
         Cách 1: net start mosquitto
         Cách 2: Hoặc chạy trực tiếp file mosquitto.exe từ thư mục cài đặt (thường là C:\Program Files\mosquitto).
-
     Tắt chạy ngầm mosquitto:
         net stop mosquitto
-
     Kiểm tra lại có cổng 1883  nào đc sử dụng k (do mặc định mosquitto dùng cổng này)
         netstat -ano | findstr 1883
 
@@ -61,21 +62,20 @@ Lưu ý:
 Kiến trúc hệ thống:
 Smart_Classroom_Digital_Twin/
 │
-├── app/                      	# Dashboard Flask
-│   ├── app.py                	# Flask app chính
+├── app/ # Dashboard Flask
+│   ├── app.py # Flask app chính
 │   └── templates/
-│       └── dashboard.html    	# Giao diện hiển thị
+│       └── dashboard.html
 │
-├── mqtt_receiver/            	# Bộ thu MQTT
+├── mqtt_receiver/ # Bộ thu MQTT
 │   └── mqtt_receiver.py
 │
-├── simulator/			# Thiết bị mô phỏng
+├── simulator/	# Thiết bị mô phỏng
 │   └── simulated_school_device.py
 │
-├── requirements.txt              # Thư viện Python cần thiết
-├── README.md                    # Giới thiệu và hướng dẫn dự án
-├── .env                          # Biến môi trường (MQTT, Blockchain, DB credentials)
-└── run.py                       # File chạy Flask SocketIO server
+├── requirements.txt # Thư viện Python cần thiết
+├── README.md
+└── .config.py # Biến môi trường (MQTT, Flask API, DB credentials)
 
 
 Giải thích sơ lược:
@@ -84,6 +84,7 @@ Giải thích sơ lược:
 - simulator/ để mô phỏng quá trình hoạt động tiêu thụ năng lượng và môi trường tại các phòng học
 - influxdb/ để quản lý kết nối và thao tác với cơ sở dữ liệu time-series.
 - requirements.txt liệt kê thư viện.
+  
 
 
 # Smart_Classroom_Digital_Twin
