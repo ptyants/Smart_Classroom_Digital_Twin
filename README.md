@@ -7,56 +7,63 @@ Giao diện:
 
 Chuẩn bị các môi trường sau:
 + Python 3  (v3.11)
++ Docker
 + Mosquitto (v2.0)
 + Influxdb  (v2.7 stable)
 + Grafana
 
 
-Cách debug & chạy Mosquitto:
+1. Mosquitto:
     Mosquitto là một trình môi giới (broker) MQTT – một phần mềm trung gian dùng để giao tiếp giữa các thiết bị trong hệ thống Internet of Things (IoT).
     Kiểm tra version:
     
-    mosquitto -v
+        mosquitto -v
         
-Chạy mosquitto:
-Cách 1: 
+    Chạy mosquitto:
+    + Cách 1: 
         
-    net start mosquitto
+            net start mosquitto
     
-Cách 2: Hoặc chạy trực tiếp file mosquitto.exe từ thư mục cài đặt (thường là C:\Program Files\mosquitto).
-Tắt chạy ngầm mosquitto:
+    + Cách 2: Hoặc chạy trực tiếp file mosquitto.exe từ thư mục cài đặt (thường là C:\Program Files\mosquitto).
+   
+    Tắt chạy ngầm mosquitto:
 
-    net stop mosquitto
+        net stop mosquitto
         
-Kiểm tra lại có cổng 1883  nào đc sử dụng k (do mặc định mosquitto dùng cổng này)
+    Kiểm tra lại có cổng 1883  nào đc sử dụng k (do mặc định mosquitto dùng cổng này)
 
-    netstat -ano | findstr 1883
+        netstat -ano | findstr 1883
 
 
-Chạy InfuxDB
+3. InfluxDB
+    Cài đặt:
 
-    docker run -d --name influxdb2 -p 8086:8086 \
-    -v influxdb2-data:/var/lib/influxdb2 \
-    -v influxdb2-config:/etc/influxdb2 \
-    -e DOCKER_INFLUXDB_INIT_MODE=setup \
-    -e DOCKER_INFLUXDB_INIT_USERNAME=admin \
-    -e DOCKER_INFLUXDB_INIT_PASSWORD=123 \
-    -e DOCKER_INFLUXDB_INIT_ORG=myorg \
-    -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket \
-    influxdb:2
+        docker run -d --name influxdb2 -p 8086:8086 \
+        -v influxdb2-data:/var/lib/influxdb2 \
+        -v influxdb2-config:/etc/influxdb2 \
+        -e DOCKER_INFLUXDB_INIT_MODE=setup \
+        -e DOCKER_INFLUXDB_INIT_USERNAME=admin \
+        -e DOCKER_INFLUXDB_INIT_PASSWORD=123 \
+        -e DOCKER_INFLUXDB_INIT_ORG=myorg \
+        -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket \
+        influxdb:2
 
-    docker start influxdb2
+    Và chạy (nếu chưa thấy bật)
 
-Chạy Grafana
-    (này cùng mạng khác local nên k truy cập đc) 
+        docker start influxdb2
+
+4. Grafana:
+    Lệnh này truy cập cùng lớp mạng nhưng khác vị trí local nên không thể truy cập kết nối 2 docker với nhau:
+   
+        docker run -d --name=grafana -p 3000:3000 grafana/grafana-enterprise
+
+    Dùng lệnh này mới kết nối được:
     
-    docker run -d --name=grafana -p 3000:3000 grafana/grafana-enterprise
+        docker run -d --name grafana --network monitoring-network -p 3000:3000 grafana/grafana-enterprise
 
-    hoặc
-    
-    docker run -d --name grafana --network monitoring-network -p 3000:3000 grafana/grafana-enterprise
+    Và chạy (nếu chưa thấy bật)
 
-    docker start grafana
+        docker start grafana
 
 
 Chạy hệ thống:
