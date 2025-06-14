@@ -15,17 +15,26 @@ Chuẩn bị các môi trường sau:
 Cách debug & chạy Mosquitto:
     Mosquitto là một trình môi giới (broker) MQTT – một phần mềm trung gian dùng để giao tiếp giữa các thiết bị trong hệ thống Internet of Things (IoT).
     Kiểm tra version:
-        mosquitto -v
-    Chạy mosquitto:
-        Cách 1: net start mosquitto
-        Cách 2: Hoặc chạy trực tiếp file mosquitto.exe từ thư mục cài đặt (thường là C:\Program Files\mosquitto).
-    Tắt chạy ngầm mosquitto:
-        net stop mosquitto
-    Kiểm tra lại có cổng 1883  nào đc sử dụng k (do mặc định mosquitto dùng cổng này)
-        netstat -ano | findstr 1883
+    
+    mosquitto -v
+        
+Chạy mosquitto:
+Cách 1: 
+        
+    net start mosquitto
+    
+Cách 2: Hoặc chạy trực tiếp file mosquitto.exe từ thư mục cài đặt (thường là C:\Program Files\mosquitto).
+Tắt chạy ngầm mosquitto:
+
+    net stop mosquitto
+        
+Kiểm tra lại có cổng 1883  nào đc sử dụng k (do mặc định mosquitto dùng cổng này)
+
+    netstat -ano | findstr 1883
 
 
 Chạy InfuxDB
+
     docker run -d --name influxdb2 -p 8086:8086 \
     -v influxdb2-data:/var/lib/influxdb2 \
     -v influxdb2-config:/etc/influxdb2 \
@@ -36,13 +45,18 @@ Chạy InfuxDB
     -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket \
     influxdb:2
 
-    -> docker start influxdb2
+    docker start influxdb2
 
 Chạy Grafana
-    (này cùng mạng khác local nên k truy cập đc) docker run -d --name=grafana -p 3000:3000 grafana/grafana-enterprise
+    (này cùng mạng khác local nên k truy cập đc) 
+    
+    docker run -d --name=grafana -p 3000:3000 grafana/grafana-enterprise
+
+    hoặc
+    
     docker run -d --name grafana --network monitoring-network -p 3000:3000 grafana/grafana-enterprise
 
-    -> docker start grafana
+    docker start grafana
 
 
 Chạy hệ thống:
